@@ -17,8 +17,8 @@ const createAdmin = async () => {
   try {
     const admin = new AdminLogin({
       username: "sikandar",
-      email: "sikushb@gmail.com",
-      password: "Siku1234"
+      email: "admin@gmail.com",
+      password: "12345678"
     });
 
     await admin.save();
