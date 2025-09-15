@@ -21,10 +21,10 @@ const withdrawalSchema = new mongoose.Schema({
     enum: ["Processing", "Completed", "Grabbed"],
     default: "Processing",
   },
-  grabbedBy: { 
-    type: mongoose.Schema.Types.ObjectId, 
-    ref: "User", 
-    default: null 
+  grabbedBy: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    default: null,
   }, // ✅ who grabbed the order
   createdAt: { type: Date, default: Date.now },
 });
@@ -41,14 +41,20 @@ const userSchema = new mongoose.Schema(
   {
     username: { type: String, required: true, unique: true },
     email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
+    password: {
+      type: String,
+      required: function () {
+        return !this.googleId;
+      },
+    },
+    googleId: { type: String },
     coins: { type: Number, default: 0 },
     role: { type: String, default: "user" },
     status: { type: String, default: "active" },
     userNumber: { type: Number, unique: true, required: true },
 
     whatsappNumber: { type: String, default: "" }, // ✅ new field
-     gameHistory: [gameHistorySchema],
+    gameHistory: [gameHistorySchema],
 
     bankAccounts: [bankAccountSchema],
     withdrawals: [withdrawalSchema],
